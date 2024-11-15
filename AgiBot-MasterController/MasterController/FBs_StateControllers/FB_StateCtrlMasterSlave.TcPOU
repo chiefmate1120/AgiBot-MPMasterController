@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
   <POU Name="FB_StateCtrlMasterSlave" Id="{5b96f309-da76-444d-a9fb-2d4321895cd7}" SpecialFunc="None">
     <Declaration><![CDATA[// Brief: Master Arm MasterSlave controller
 FUNCTION_BLOCK PUBLIC FB_StateCtrlMasterSlave EXTENDS FB_MasterArmCtrlBase
@@ -16,6 +16,9 @@ VAR
 	
 	// boundary limit force feedback
 	m_boundaryForce : FB_boundaryForceFeedback;
+	
+	// joint6 software limit control
+	m_jnt6LimitCtrl :FB_Jnt6SWLimit;
 	
 	// joint torque for master-slave error
 	m_boundaryTrq :Vec7d;
@@ -186,11 +189,7 @@ VAR_IN_OUT CONSTANT
 END_VAR
 
 VAR 
-	nullspaceMat :Mat7d;
-	ctrlTrq : Vec7d;
-	boundaryTrq :Vec7d;
-	withinBoundary :BOOL;
-	i :INT;
+	
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -199,7 +198,9 @@ END_VAR
 	calcCmdJntTrq_USKnife(i_slaveIdx,i_shoulderPose,i_masterArm,i_slaveStatus);
 ELSE
 	calcCmdJntTrq_BasicInstru(i_slaveIdx,i_shoulderPose,i_masterArm,i_slaveStatus);
-END_IF]]></ST>
+END_IF
+
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="calcCmdJntTrq_BasicInstru" Id="{924c67b8-8dc8-4b14-a8ff-535af80c10ba}">
@@ -218,6 +219,7 @@ VAR
 	ctrlTrq : Vec7d;
 	boundaryTrq :Vec7d;
 	withinBoundary :BOOL;
+	joint6LimitTrq:LREAL;
 	i :INT;
 END_VAR
 ]]></Declaration>
@@ -243,6 +245,10 @@ END_IF
 FOR i:=1 TO g_mJntNum DO 
 	m_cmdJntTrq[i] := m_cmdJntTrq[i] +m_frictionCompScale * i_masterArm.jntFriction[i] + m_boundaryTrq[i];
 END_FOR
+
+// joint6  limit control
+joint6LimitTrq := m_jnt6LimitCtrl.run(i_masterArm);
+m_cmdJntTrq[6]:= m_cmdJntTrq[6]+ joint6LimitTrq;
 ]]></ST>
       </Implementation>
     </Method>
@@ -340,6 +346,7 @@ m_jntOPMode := g_allTrqMode;
 
 // init controller
 m_redunJntCtrl.init(i_masterArm);
+m_jnt6LimitCtrl.init(i_masterArm);
 
 // update commands to arm
 copyCmds(r_masterArmCtrlCmd);
@@ -369,6 +376,8 @@ copyCmds(r_masterArmCtrlCmd);
     <LineIds Name="FB_StateCtrlMasterSlave.calcCmdJntTrq">
       <LineId Id="223" Count="4" />
       <LineId Id="13" Count="0" />
+      <LineId Id="246" Count="0" />
+      <LineId Id="245" Count="0" />
     </LineIds>
     <LineIds Name="FB_StateCtrlMasterSlave.calcCmdJntTrq_BasicInstru">
       <LineId Id="204" Count="1" />
@@ -385,6 +394,9 @@ copyCmds(r_masterArmCtrlCmd);
       <LineId Id="55" Count="2" />
       <LineId Id="35" Count="0" />
       <LineId Id="182" Count="3" />
+      <LineId Id="228" Count="1" />
+      <LineId Id="227" Count="0" />
+      <LineId Id="230" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_StateCtrlMasterSlave.calcCmdJntTrq_USKnife">
@@ -414,6 +426,7 @@ copyCmds(r_masterArmCtrlCmd);
       <LineId Id="115" Count="0" />
       <LineId Id="16" Count="1" />
       <LineId Id="59" Count="0" />
+      <LineId Id="141" Count="0" />
       <LineId Id="128" Count="1" />
       <LineId Id="127" Count="0" />
       <LineId Id="89" Count="0" />

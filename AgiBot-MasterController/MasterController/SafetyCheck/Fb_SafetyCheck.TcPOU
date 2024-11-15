@@ -125,12 +125,12 @@ END_FOR
 
 
 //关节跟随误差过大
-FOR i:=1 TO g_mJntNum BY 1 DO
-	m_checkDelay[i_ArmId].T_armJntFollowErr[i](IN:= ABS(i_masterJointData.m_cmdJntPos[i_armId][i]- i_masterJointData.m_curJntPos[i_armId][i])>g_armMaxJntFollowErr[i]  AND m_checkPermit[i_ArmId].m_armJntFollowErr[i], PT:=m_checkDelayTime.Ti_armJntFollowErr , Q=> , ET=> );
-	IF m_checkDelay[i_ArmId].T_armJntFollowErr[i].Q THEN
-		errCodeAssign(i_ArmId, i_ArmId,  0, i, 16#2002, m_rcvLevel );
-	END_IF
-END_FOR
+//FOR i:=1 TO g_mJntNum BY 1 DO
+//	m_checkDelay[i_ArmId].T_armJntFollowErr[i](IN:= ABS(i_masterJointData.m_cmdJntPos[i_armId][i]- i_masterJointData.m_curJntPos[i_armId][i])>g_armMaxJntFollowErr[i]  AND m_checkPermit[i_ArmId].m_armJntFollowErr[i], PT:=m_checkDelayTime.Ti_armJntFollowErr , Q=> , ET=> );
+//	IF m_checkDelay[i_ArmId].T_armJntFollowErr[i].Q THEN
+//		errCodeAssign(i_ArmId, i_ArmId,  0, i, 16#2002, m_rcvLevel );
+//	END_IF
+//END_FOR
 
 
 //笛卡尔空间指令与位置偏差检测
@@ -161,7 +161,7 @@ END_FOR
 
 //self check failure
 IF i_masterStatus.m_armState[i_armId] = MasterArmState_Home AND i_masterStatus.m_timePeriod[i] > g_selfCheckTimeLimit THEN//i_safetyCheckVar[i_armId].m_selfCheckFail THEN
-	errCodeAssign(i_armId, i_ArmId,  0, 0, 16#2008, m_rcvLevel );
+	errCodeAssign(i_armId, i_ArmId,  0, 0, 16#2010, m_rcvLevel );
 END_IF
 
 //motor encoder mutation detection

@@ -61,12 +61,14 @@ g_masterArmDH:ARRAY[1..9,1..4] OF LREAL :=[0,	0,		g_d1,	0,
 										0,		g_a9, 	0,		0];
 											
 // master grip angle fitting coefficients(wrt normalized hall sensor value)
-g_masterGripAngleFitCoeff2 : ARRAY[1..4] OF LREAL :=
-	[2383.519457, -348.6613075, -3.070925, 0.5172933123];
 g_masterGripAngleFitCoeff : ARRAY[1..6] OF LREAL :=
-	[4.013978, -10.454747, 9.464741, -3.7829344, 0.447868, 0.339937];
+	[-6.2568, 13.9762, -11.8938, 4.56924, -0.9183, 0.52359];
 g_maxGripAngle : LREAL := 30.0 * g_deg2Rad;
 g_minGripAngle :LREAL  := 0.0;
+
+// software limit for joint6
+g_jnt6LowLimit :ARRAY[1..2] OF LREAL :=[-pi/2 - 55*g_deg2rad, pi/2 - 65*g_deg2rad];
+g_jnt6UpLimit :ARRAY[1..2] OF LREAL :=[-pi/2 + 65*g_deg2rad, pi/2 + 55*g_deg2rad];
 
 END_VAR]]></Declaration>
   </GVL>

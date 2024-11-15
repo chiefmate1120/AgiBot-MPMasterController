@@ -51,21 +51,12 @@ m_gripHallSenorValue:=(IOValue/65536) AND 16#0000FFFF; //high 16 bits
 // normalize hall sensor value
 m_normHallSensorValue:=LIMIT(0, (m_gripHallSenorValue-m_minHallSensorValue)/m_hallSensorRange, 1);
 
-IF m_normHallSensorValue<=0.019 THEN
-	// grip angle fitting
-	m_gripAngle := g_masterGripAngleFitCoeff2[1] * EXPT(m_normHallSensorValue,3)
-				+ g_masterGripAngleFitCoeff2[2] * EXPT(m_normHallSensorValue,2)
-				+ g_masterGripAngleFitCoeff2[3] * EXPT(m_normHallSensorValue,1)
-				+ g_masterGripAngleFitCoeff2[4];
-ELSE
-	m_gripAngle := g_masterGripAngleFitCoeff[1] * EXPT(m_normHallSensorValue,5)
-			+ g_masterGripAngleFitCoeff[2] * EXPT(m_normHallSensorValue,4)
-			+ g_masterGripAngleFitCoeff[3] * EXPT(m_normHallSensorValue,3)
-			+ g_masterGripAngleFitCoeff[4] * EXPT(m_normHallSensorValue,2)
-			+ g_masterGripAngleFitCoeff[5] * EXPT(m_normHallSensorValue,1)
-			+ g_masterGripAngleFitCoeff[6];
-END_IF
-
+m_gripAngle := g_masterGripAngleFitCoeff[1] * EXPT(m_normHallSensorValue,5)
+		+ g_masterGripAngleFitCoeff[2] * EXPT(m_normHallSensorValue,4)
+		+ g_masterGripAngleFitCoeff[3] * EXPT(m_normHallSensorValue,3)
+		+ g_masterGripAngleFitCoeff[4] * EXPT(m_normHallSensorValue,2)
+		+ g_masterGripAngleFitCoeff[5] * EXPT(m_normHallSensorValue,1)
+		+ g_masterGripAngleFitCoeff[6];
 
 // filt and cap the result
 m_gripAngle := m_gripAngLpf.run(m_gripAngle);
@@ -86,14 +77,9 @@ run:=m_gripAngle;]]></ST>
     </LineIds>
     <LineIds Name="FB_GripAngleCalc.run">
       <LineId Id="6" Count="4" />
-      <LineId Id="34" Count="0" />
-      <LineId Id="11" Count="0" />
-      <LineId Id="37" Count="3" />
-      <LineId Id="35" Count="0" />
       <LineId Id="41" Count="0" />
       <LineId Id="44" Count="5" />
-      <LineId Id="36" Count="0" />
-      <LineId Id="18" Count="3" />
+      <LineId Id="19" Count="2" />
       <LineId Id="5" Count="0" />
       <LineId Id="23" Count="0" />
       <LineId Id="22" Count="0" />

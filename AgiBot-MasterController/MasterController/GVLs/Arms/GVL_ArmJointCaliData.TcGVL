@@ -6,17 +6,17 @@
 VAR_GLOBAL CONSTANT									 
 	// absolute encoder value at minimal joint positon
 	g_minLinkEncoder :ARRAY[1..g_mArmNum, 1..g_mJntNum] OF DINT :=
-		[122745, 128228, 36292, 22430, 20158, 45700, 0,
+		[122745, 128228, 36292, 22430, 20158, 65855, 0,
 		 35855, 68924, 4429, 107164, 130111, 42645, 0];
 		 
 	// absolute encoder value at maximum joint positon
 	g_maxLinkEncoder :ARRAY[1..g_mArmNum, 1..g_mJntNum] OF DINT :=
-		[36223, 83720, 69818, 109643, 52927, 65855, 0,
+		[36223, 83720, 69818, 109643, 52927, 45700, 0,
 		 79841, 24455, 37956, 63571, 31889, 22283, 0];
 	
 	// absolute encoder value at calibrated positon
 	g_caliLinkEncoder :ARRAY[1..g_mArmNum, 1..g_mJntNum] OF DINT :=
-		[15150, 107027, 47903, 76302, 102239, 88760, 53627,
+		[12232, 104860, 48044, 76302, 102239, 88760, 21202,
 		 57523, 46542, 15769, 8255, 81176, 131007, 56205];
 	
 	 // if absolute encoder value cross zeros within joint motion range
@@ -26,8 +26,8 @@ VAR_GLOBAL CONSTANT
 		 0, 0, 1, 1, 0, 1, 1];
 		 
 	// limit value of gripper hall sensor
-	g_minHallSensorValue :ARRAY[1..2] OF DINT:=[8720383,8982527];
-	g_maxHallSensorValue :ARRAY[1..2] OF DINT  :=[95684892,94374153];
+	g_minHallSensorValue :ARRAY[1..2] OF DINT:=[9702292,9964273];
+	g_maxHallSensorValue :ARRAY[1..2] OF DINT  :=[114690234,116983959];
 		 
  	//################ DO NOT modify parameters below ###########################	
 	// abolute encoder expanded limit buffer in case there is calibrtion error at limit position

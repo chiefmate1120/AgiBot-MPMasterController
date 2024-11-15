@@ -283,6 +283,9 @@
     <Compile Include="FBs_BasicControllers\FB_boundaryForceFeedback.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="FBs_BasicControllers\FB_Jnt6SWLimit.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="FBs_BasicControllers\FB_PID.TcPOU">
       <SubType>Code</SubType>
     </Compile>

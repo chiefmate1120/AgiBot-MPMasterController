@@ -109,7 +109,7 @@ FOR i := 1 TO g_maxArmNum DO
 		//fault code 16#3002 
 		m_SafetyCheck.checkPermit[i].m_currentIsNotUpdate[j] :=m_checkVariable[i].m_masterDriverInput[j].m_statusWord<>0 ;
 		//fault code 16#2002
-		m_SafetyCheck.checkPermit[i].m_armJntFollowErr[j] := m_masterStatus.m_armState[j] = MasterArmState_Home OR m_masterStatus.m_armState[j] = MasterArmState_MasterSlave;//m_checkVariable[i].m_masterDriverInput[j].m_statusWord = DriverStatusWord_OP ;
+		m_SafetyCheck.checkPermit[i].m_armJntFollowErr[j] := TRUE;//m_masterStatus.m_armState[j] = MasterArmState_Home OR m_masterStatus.m_armState[j] = MasterArmState_MasterSlave;//m_checkVariable[i].m_masterDriverInput[j].m_statusWord = DriverStatusWord_OP ;
 		//fault code 16#3002
 		m_SafetyCheck.checkPermit[i].m_jntStatusErr[j] := TRUE;
 		//fault code 16#3004

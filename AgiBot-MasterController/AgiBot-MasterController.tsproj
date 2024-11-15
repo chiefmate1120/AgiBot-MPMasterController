@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.29" TcVersionFixed="true">
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.53" TcVersionFixed="true">
 	<DataTypes>
 		<DataType>
 			<Name GUID="{5C5B5A05-1109-4835-A488-5EC522387A1D}">MSCommu_InstruStatus</Name>
@@ -270,7 +270,7 @@
 			</SubItem>
 		</DataType>
 		<DataType>
-			<Name GUID="{0BD048C8-F98A-BAAD-1403-26799A8FFD1A}" AutoDeleteType="true">ST_CartStatus</Name>
+			<Name GUID="{32049157-EE4E-66EF-B953-F74D5CE5F3CA}" AutoDeleteType="true">ST_CartStatus</Name>
 			<Comment><![CDATA[ Output from cart control task
  Input to master arm control task  ]]></Comment>
 			<BitSize>256</BitSize>
@@ -347,7 +347,7 @@
 				</Default>
 			</SubItem>
 			<SubItem>
-				<Name>m_consoleInManualAdjust</Name>
+				<Name>m_monitorInAdjust</Name>
 				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
 				<BitSize>8</BitSize>
 				<BitOffs>176</BitOffs>
@@ -356,16 +356,25 @@
 				</Default>
 			</SubItem>
 			<SubItem>
-				<Name>m_ergonAdjustArrival</Name>
+				<Name>m_consoleInManualAdjust</Name>
 				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
 				<BitSize>8</BitSize>
 				<BitOffs>184</BitOffs>
+				<Default>
+					<Bool>false</Bool>
+				</Default>
+			</SubItem>
+			<SubItem>
+				<Name>m_ergonAdjustArrival</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>192</BitOffs>
 			</SubItem>
 			<SubItem>
 				<Name>m_cancelErgonAdjustArrival</Name>
 				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
 				<BitSize>8</BitSize>
-				<BitOffs>192</BitOffs>
+				<BitOffs>200</BitOffs>
 			</SubItem>
 			<SubItem>
 				<Name>m_pedalHover</Name>
@@ -375,7 +384,7 @@
 					<Elements>2</Elements>
 				</ArrayInfo>
 				<BitSize>16</BitSize>
-				<BitOffs>200</BitOffs>
+				<BitOffs>208</BitOffs>
 			</SubItem>
 			<SubItem>
 				<Name>m_electricKnifePedalTrigger</Name>
@@ -1220,7 +1229,7 @@
 			</Hides>
 		</DataType>
 		<DataType>
-			<Name GUID="{4CE39040-C42E-0F49-A5E0-4BD6D1293DCD}" AutoDeleteType="true">ST_MotorOutputs</Name>
+			<Name GUID="{488B6305-DC6A-E4DC-738A-E6698812A209}" AutoDeleteType="true">ST_MotorOutputs</Name>
 			<BitSize>96</BitSize>
 			<SubItem>
 				<Name>m_controlWord</Name>
@@ -1228,6 +1237,9 @@
 				<Comment><![CDATA[ driver control word]]></Comment>
 				<BitSize>16</BitSize>
 				<BitOffs>0</BitOffs>
+				<Default>
+					<Value>6</Value>
+				</Default>
 			</SubItem>
 			<SubItem>
 				<Name>m_opMode</Name>
@@ -1235,6 +1247,9 @@
 				<Comment><![CDATA[ motor control mode, 0 for position mode, 1 for torque mode]]></Comment>
 				<BitSize>8</BitSize>
 				<BitOffs>16</BitOffs>
+				<Default>
+					<Value>0</Value>
+				</Default>
 			</SubItem>
 			<SubItem>
 				<Name>m_cmdMotorEncoder</Name>
@@ -1242,6 +1257,9 @@
 				<Comment><![CDATA[ target motor encoder]]></Comment>
 				<BitSize>32</BitSize>
 				<BitOffs>32</BitOffs>
+				<Default>
+					<Value>0</Value>
+				</Default>
 			</SubItem>
 			<SubItem>
 				<Name>m_cmdCurrent</Name>
@@ -1249,6 +1267,9 @@
 				<Comment><![CDATA[ motor current to IO]]></Comment>
 				<BitSize>32</BitSize>
 				<BitOffs>64</BitOffs>
+				<Default>
+					<Value>0</Value>
+				</Default>
 			</SubItem>
 		</DataType>
 		<DataType>
@@ -1487,6 +1508,7 @@
 			</EnumInfo>
 			<Hides>
 				<Hide GUID="{0ED4FFAB-3225-C4E0-899E-FE38974D4D54}"/>
+				<Hide GUID="{1A257946-3A85-B71C-7DA0-89EE82AD3A80}"/>
 			</Hides>
 		</DataType>
 		<DataType>
@@ -1534,7 +1556,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{0C182974-8910-4DEE-A0B7-B414028AF699}" Name="MasterController" PrjFilePath="MasterController\MasterController.plcproj" TmcFilePath="MasterController\MasterController.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="MasterController\MasterController.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="MasterController\MasterController.tmc" TmcHash="{A50D04FE-D0E0-C500-46CC-47F793607944}">
 					<Name>MasterController Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">
@@ -1557,7 +1579,7 @@
 						<Var>
 							<Name>MasterArmControl.m_masterInputDataPool.m_cartStatus</Name>
 							<Comment><![CDATA[ cart information, import from other task]]></Comment>
-							<Type GUID="{0BD048C8-F98A-BAAD-1403-26799A8FFD1A}">ST_CartStatus</Type>
+							<Type GUID="{32049157-EE4E-66EF-B953-F74D5CE5F3CA}">ST_CartStatus</Type>
 						</Var>
 						<Var>
 							<Name>MasterArmControl.m_masterInputDataPool.m_masterDynaData</Name>
@@ -1674,59 +1696,59 @@
 						</Var>
 						<Var>
 							<Name>MasterArmControl.m_masterRobot.m_masterArms[1].m_joints[1].m_motorOutputs</Name>
-							<Type GUID="{4CE39040-C42E-0F49-A5E0-4BD6D1293DCD}">ST_MotorOutputs</Type>
+							<Type GUID="{488B6305-DC6A-E4DC-738A-E6698812A209}">ST_MotorOutputs</Type>
 						</Var>
 						<Var>
 							<Name>MasterArmControl.m_masterRobot.m_masterArms[1].m_joints[2].m_motorOutputs</Name>
-							<Type GUID="{4CE39040-C42E-0F49-A5E0-4BD6D1293DCD}">ST_MotorOutputs</Type>
+							<Type GUID="{488B6305-DC6A-E4DC-738A-E6698812A209}">ST_MotorOutputs</Type>
 						</Var>
 						<Var>
 							<Name>MasterArmControl.m_masterRobot.m_masterArms[1].m_joints[3].m_motorOutputs</Name>
-							<Type GUID="{4CE39040-C42E-0F49-A5E0-4BD6D1293DCD}">ST_MotorOutputs</Type>
+							<Type GUID="{488B6305-DC6A-E4DC-738A-E6698812A209}">ST_MotorOutputs</Type>
 						</Var>
 						<Var>
 							<Name>MasterArmControl.m_masterRobot.m_masterArms[1].m_joints[4].m_motorOutputs</Name>
-							<Type GUID="{4CE39040-C42E-0F49-A5E0-4BD6D1293DCD}">ST_MotorOutputs</Type>
+							<Type GUID="{488B6305-DC6A-E4DC-738A-E6698812A209}">ST_MotorOutputs</Type>
 						</Var>
 						<Var>
 							<Name>MasterArmControl.m_masterRobot.m_masterArms[1].m_joints[5].m_motorOutputs</Name>
-							<Type GUID="{4CE39040-C42E-0F49-A5E0-4BD6D1293DCD}">ST_MotorOutputs</Type>
+							<Type GUID="{488B6305-DC6A-E4DC-738A-E6698812A209}">ST_MotorOutputs</Type>
 						</Var>
 						<Var>
 							<Name>MasterArmControl.m_masterRobot.m_masterArms[1].m_joints[6].m_motorOutputs</Name>
-							<Type GUID="{4CE39040-C42E-0F49-A5E0-4BD6D1293DCD}">ST_MotorOutputs</Type>
+							<Type GUID="{488B6305-DC6A-E4DC-738A-E6698812A209}">ST_MotorOutputs</Type>
 						</Var>
 						<Var>
 							<Name>MasterArmControl.m_masterRobot.m_masterArms[1].m_joints[7].m_motorOutputs</Name>
-							<Type GUID="{4CE39040-C42E-0F49-A5E0-4BD6D1293DCD}">ST_MotorOutputs</Type>
+							<Type GUID="{488B6305-DC6A-E4DC-738A-E6698812A209}">ST_MotorOutputs</Type>
 						</Var>
 						<Var>
 							<Name>MasterArmControl.m_masterRobot.m_masterArms[2].m_joints[1].m_motorOutputs</Name>
-							<Type GUID="{4CE39040-C42E-0F49-A5E0-4BD6D1293DCD}">ST_MotorOutputs</Type>
+							<Type GUID="{488B6305-DC6A-E4DC-738A-E6698812A209}">ST_MotorOutputs</Type>
 						</Var>
 						<Var>
 							<Name>MasterArmControl.m_masterRobot.m_masterArms[2].m_joints[2].m_motorOutputs</Name>
-							<Type GUID="{4CE39040-C42E-0F49-A5E0-4BD6D1293DCD}">ST_MotorOutputs</Type>
+							<Type GUID="{488B6305-DC6A-E4DC-738A-E6698812A209}">ST_MotorOutputs</Type>
 						</Var>
 						<Var>
 							<Name>MasterArmControl.m_masterRobot.m_masterArms[2].m_joints[3].m_motorOutputs</Name>
-							<Type GUID="{4CE39040-C42E-0F49-A5E0-4BD6D1293DCD}">ST_MotorOutputs</Type>
+							<Type GUID="{488B6305-DC6A-E4DC-738A-E6698812A209}">ST_MotorOutputs</Type>
 						</Var>
 						<Var>
 							<Name>MasterArmControl.m_masterRobot.m_masterArms[2].m_joints[4].m_motorOutputs</Name>
-							<Type GUID="{4CE39040-C42E-0F49-A5E0-4BD6D1293DCD}">ST_MotorOutputs</Type>
+							<Type GUID="{488B6305-DC6A-E4DC-738A-E6698812A209}">ST_MotorOutputs</Type>
 						</Var>
 						<Var>
 							<Name>MasterArmControl.m_masterRobot.m_masterArms[2].m_joints[5].m_motorOutputs</Name>
-							<Type GUID="{4CE39040-C42E-0F49-A5E0-4BD6D1293DCD}">ST_MotorOutputs</Type>
+							<Type GUID="{488B6305-DC6A-E4DC-738A-E6698812A209}">ST_MotorOutputs</Type>
 						</Var>
 						<Var>
 							<Name>MasterArmControl.m_masterRobot.m_masterArms[2].m_joints[6].m_motorOutputs</Name>
-							<Type GUID="{4CE39040-C42E-0F49-A5E0-4BD6D1293DCD}">ST_MotorOutputs</Type>
+							<Type GUID="{488B6305-DC6A-E4DC-738A-E6698812A209}">ST_MotorOutputs</Type>
 						</Var>
 						<Var>
 							<Name>MasterArmControl.m_masterRobot.m_masterArms[2].m_joints[7].m_motorOutputs</Name>
-							<Type GUID="{4CE39040-C42E-0F49-A5E0-4BD6D1293DCD}">ST_MotorOutputs</Type>
+							<Type GUID="{488B6305-DC6A-E4DC-738A-E6698812A209}">ST_MotorOutputs</Type>
 						</Var>
 					</Vars>
 					<Vars VarGrpType="1" ContextId="1" AreaNo="16">
@@ -1831,24 +1853,24 @@
 						</Var>
 						<Var>
 							<Name>CartControl.m_masterCart.m_cartJoints[1].m_motorOutputs</Name>
-							<Type GUID="{4CE39040-C42E-0F49-A5E0-4BD6D1293DCD}">ST_MotorOutputs</Type>
+							<Type GUID="{488B6305-DC6A-E4DC-738A-E6698812A209}">ST_MotorOutputs</Type>
 						</Var>
 						<Var>
 							<Name>CartControl.m_masterCart.m_cartJoints[2].m_motorOutputs</Name>
-							<Type GUID="{4CE39040-C42E-0F49-A5E0-4BD6D1293DCD}">ST_MotorOutputs</Type>
+							<Type GUID="{488B6305-DC6A-E4DC-738A-E6698812A209}">ST_MotorOutputs</Type>
 						</Var>
 						<Var>
 							<Name>CartControl.m_masterCart.m_cartJoints[3].m_motorOutputs</Name>
-							<Type GUID="{4CE39040-C42E-0F49-A5E0-4BD6D1293DCD}">ST_MotorOutputs</Type>
+							<Type GUID="{488B6305-DC6A-E4DC-738A-E6698812A209}">ST_MotorOutputs</Type>
 						</Var>
 						<Var>
 							<Name>CartControl.m_masterCart.m_cartJoints[4].m_motorOutputs</Name>
-							<Type GUID="{4CE39040-C42E-0F49-A5E0-4BD6D1293DCD}">ST_MotorOutputs</Type>
+							<Type GUID="{488B6305-DC6A-E4DC-738A-E6698812A209}">ST_MotorOutputs</Type>
 						</Var>
 						<Var>
 							<Name>CartControl.m_cartStatus</Name>
 							<Comment><![CDATA[ Output cart status]]></Comment>
-							<Type GUID="{0BD048C8-F98A-BAAD-1403-26799A8FFD1A}">ST_CartStatus</Type>
+							<Type GUID="{32049157-EE4E-66EF-B953-F74D5CE5F3CA}">ST_CartStatus</Type>
 						</Var>
 						<Var>
 							<Name>CartControl.m_cartJointData</Name>
@@ -1880,7 +1902,7 @@
 						<Var>
 							<Name>SafetyCheck.m_cartStatus</Name>
 							<Comment><![CDATA[cart status]]></Comment>
-							<Type GUID="{0BD048C8-F98A-BAAD-1403-26799A8FFD1A}">ST_CartStatus</Type>
+							<Type GUID="{32049157-EE4E-66EF-B953-F74D5CE5F3CA}">ST_CartStatus</Type>
 						</Var>
 						<Var>
 							<Name>SafetyCheck.m_cartJointData</Name>
@@ -1892,75 +1914,9 @@
 							<Type>BOOL</Type>
 						</Var>
 					</Vars>
-					<UnrestoredVarLinks ImportTime="2023-12-15T10:38:09">
-						<OwnerA Name="InputDst" Prefix="TIPC^MasterArmControl^MasterArmControl Instance" Type="1">
-							<OwnerB Name="TIPC^MasterArmControl^MasterArmControl Instance">
-								<Link VarA="RobotDynamics.m_masterJointsData" TypeA="ST_MasterJointData" InOutA="0" GuidA="{A8F93691-3340-9F64-384A-1FADDA5F5E51}" VarB="PlcTask Outputs^MasterArmControl.m_masterJointsData" RestoreInfo="BNotFound"/>
-							</OwnerB>
-						</OwnerA>
-						<OwnerA Name="OutputSrc" Prefix="TIPC^MasterArmControl^MasterArmControl Instance" Type="2">
-							<OwnerB Name="TIPC^MasterArmControl^MasterArmControl Instance">
-								<Link VarA="RobotDynamics.m_masterDynaData" TypeA="ST_MasterDynaData" InOutA="1" GuidA="{CC14C054-64DF-A3DA-F72F-4AF3A03A1CDC}" VarB="PlcTask Inputs^MasterArmControl.m_masterInputDataPool.m_masterDynaData" RestoreInfo="BNotFound"/>
-							</OwnerB>
-						</OwnerA>
-					</UnrestoredVarLinks>
-					<UnrestoredVarLinks ImportTime="2024-04-07T10:01:14">
-						<OwnerA Name="InputDst" Prefix="TIPC^MasterController^MasterController Instance" Type="1">
-							<OwnerB Name="TIID^LeftArm (EtherCAT)^Joint7 (AX58200_MotorControl)">
-								<Link VarA="MasterArmControl.m_masterRobot.m_masterArms[1].m_gripHallSensorValue" TypeA="UDINT" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000008}" VarB="TxPdoMappingCspCsv^analog input" RestoreInfo="ANotFound"/>
-							</OwnerB>
-							<OwnerB Name="TIID^RightArm (EtherCAT)^Joint7 (AX58200_MotorControl)">
-								<Link VarA="MasterArmControl.m_masterRobot.m_masterArms[2].m_gripHallSensorValue" TypeA="UDINT" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000008}" VarB="TxPdoMappingCspCsv^analog input" RestoreInfo="ANotFound"/>
-							</OwnerB>
-						</OwnerA>
-					</UnrestoredVarLinks>
-					<UnrestoredVarLinks ImportTime="2024-04-07T16:06:43">
-						<OwnerA Name="InputDst" Prefix="TIPC^MasterController^MasterController Instance" Type="1">
-							<OwnerB Name="TIID^RightArm (EtherCAT)^Joint7 (AX58200_MotorControl)">
-								<Link VarA="MasterArmControl.m_masterRobot.m_masterArms[2].m_gripAngleCalc.m_gripHallSensorIO" TypeA="UDINT" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000008}" VarB="TxPdoMappingCspCsv^analog input" RestoreInfo="ANotFound"/>
-								<Link VarA="MasterArmControl.m_masterRobot.m_masterArms[2].m_handClutchCheck.m_handClutchIO" TypeA="UDINT" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000008}" VarB="TxPdoMappingCspCsv^digital input" RestoreInfo="ANotFound"/>
-							</OwnerB>
-						</OwnerA>
-					</UnrestoredVarLinks>
-					<UnrestoredVarLinks ImportTime="2024-04-19T09:06:42">
-						<OwnerA Name="InputDst" Prefix="TIPC^MasterController^MasterController Instance" Type="1">
-							<OwnerB Name="TIID^RightArm (EtherCAT)^Term 19 (EK1100)^Term 21 (EL1008)">
-								<Link VarA="CartControl.m_clutchPedalIO" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="Channel 2^Input" Size="1" RestoreInfo="ANotFound"/>
-								<Link VarA="CartControl.m_endoScopePedalIO" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="Channel 3^Input" Size="1" RestoreInfo="ANotFound"/>
-							</OwnerB>
-							<OwnerB Name="TIID^RightArm (EtherCAT)^Term 19 (EK1100)^Term 22 (EL1008)">
-								<Link VarA="CartControl.m_surgonHeadInIO" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="Channel 5^Input" Size="1" RestoreInfo="ANotFound"/>
-							</OwnerB>
-						</OwnerA>
-					</UnrestoredVarLinks>
-					<UnrestoredVarLinks ImportTime="2024-05-06T14:42:15">
-						<OwnerA Name="OutputSrc" Prefix="TIPC^MasterController^MasterController Instance" Type="2">
-							<OwnerB Name="TIID^MSCommunication (EtherCAT)^Box 46 (EL6695-0002)">
-								<Link VarA="MasterArmControl.m_slaveUIData" TypeA="MSCommu_SlaveUIData" InOutA="1" GuidA="{ECEFFCD1-EDC1-43F2-9920-0DD8D8442A8A}" VarB="IO Outputs^SlaveUIData" RestoreInfo="ANotFound"/>
-							</OwnerB>
-						</OwnerA>
-					</UnrestoredVarLinks>
-					<UnrestoredVarLinks ImportTime="2024-07-04T20:25:23">
-						<OwnerA Name="OutputSrc" Prefix="TIPC^MasterController^MasterController Instance" Type="2">
-							<OwnerB Name="TIID^MSCommunication (EtherCAT)^Box 45 (AX58200_MotorControl)">
-								<Link VarA="CartControl.m_masterCart.m_eleKnifeCrlWord" TypeA="DINT" InOutA="1" GuidA="{18071995-0000-0000-0000-000000000009}" VarB="RxPdoMappingCspCsv^Target velocity" RestoreInfo="ANotFound"/>
-							</OwnerB>
-						</OwnerA>
-					</UnrestoredVarLinks>
-					<UnrestoredVarLinks ImportTime="2024-08-29T16:26:03">
-						<OwnerA Name="InputDst" Prefix="TIPC^MasterController^MasterController Instance" Type="1">
-							<OwnerB Name="TIID^RightArm (EtherCAT)^Term 19 (EK1100)^Term 22 (EL1008)">
-								<Link VarA="CartControl.m_masterCart.m_cartLockSignalLeft" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="Channel 7^Input" Size="1" RestoreInfo="ANotFound"/>
-								<Link VarA="CartControl.m_masterCart.m_cartLockSignalRight" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="Channel 8^Input" Size="1" RestoreInfo="ANotFound"/>
-							</OwnerB>
-							<OwnerB Name="TIPC^MasterController^MasterController Instance">
-								<Link VarA="CartControl.m_masterCart.m_jntErrFlag" TypeA="Vec4b" InOutA="0" GuidA="{D3FC0E71-E966-7642-BFEE-4268915B4346}" VarB="TaskSafetyCheck Outputs^SafetyCheck.m_safetyCheckData^m_cartErrFlag" RestoreInfo="ANotFound"/>
-							</OwnerB>
-						</OwnerA>
-					</UnrestoredVarLinks>
 					<Contexts>
 						<Context>
-							<Id NeedCalleeCall="true">0</Id>
+							<Id>0</Id>
 							<Name>TaskArmControl</Name>
 							<ManualConfig>
 								<OTCID>#x02010030</OTCID>
@@ -1969,7 +1925,7 @@
 							<CycleTime>250000</CycleTime>
 						</Context>
 						<Context>
-							<Id NeedCalleeCall="true">1</Id>
+							<Id>1</Id>
 							<Name>TaskDynamic</Name>
 							<ManualConfig>
 								<OTCID>#x02010040</OTCID>
@@ -1978,7 +1934,7 @@
 							<CycleTime>1000000</CycleTime>
 						</Context>
 						<Context>
-							<Id NeedCalleeCall="true">2</Id>
+							<Id>2</Id>
 							<Name>TaskCartControl</Name>
 							<ManualConfig>
 								<OTCID>#x02010060</OTCID>
@@ -1987,7 +1943,7 @@
 							<CycleTime>1000000</CycleTime>
 						</Context>
 						<Context>
-							<Id NeedCalleeCall="true">3</Id>
+							<Id>3</Id>
 							<Name>TaskSafetyCheck</Name>
 							<ManualConfig>
 								<OTCID>#x02010050</OTCID>
@@ -1999,8 +1955,8 @@
 					<TaskPouOids>
 						<TaskPouOid Prio="1" OTCID="#x08502001"/>
 						<TaskPouOid Prio="2" OTCID="#x08502002"/>
-						<TaskPouOid Prio="4" OTCID="#x08502004"/>
-						<TaskPouOid Prio="5" OTCID="#x08502003"/>
+						<TaskPouOid Prio="4" OTCID="#x08502003"/>
+						<TaskPouOid Prio="5" OTCID="#x08502004"/>
 					</TaskPouOids>
 				</Instance>
 			</Project>
@@ -2018,7 +1974,7 @@
 				<Image Id="2" AddrType="9" ImageType="3">
 					<Name>Image</Name>
 				</Image>
-				<Image Id="1" AddrType="10" ImageType="3">
+				<Image Id="7" AddrType="10" ImageType="3">
 					<Name>Image-2</Name>
 				</Image>
 				<Box Id="7" BoxType="9099">
@@ -4082,7 +4038,7 @@
 				<Image Id="5" AddrType="9" ImageType="3">
 					<Name>Image</Name>
 				</Image>
-				<Image Id="7" AddrType="10" ImageType="3">
+				<Image Id="1" AddrType="10" ImageType="3">
 					<Name>Image-2</Name>
 				</Image>
 				<Box Id="2" BoxType="9099" BoxFlags="#x00000020">
@@ -4334,14 +4290,14 @@
 		<MappingInfo Identifier="{00000000-2001-0850-0020-500820000403}" Id="#x02030050"/>
 		<MappingInfo Identifier="{00000000-2001-0850-0020-500840000403}" Id="#x02030040"/>
 		<MappingInfo Identifier="{00000000-2001-0850-0020-500850000403}" Id="#x02030010"/>
-		<MappingInfo Identifier="{00000000-2004-0850-0220-500811000403}" Id="#x02030070"/>
-		<MappingInfo Identifier="{00000000-2004-0850-0220-500871000403}" Id="#x02030020"/>
+		<MappingInfo Identifier="{00000000-2003-0850-0220-500811000403}" Id="#x02030060"/>
+		<MappingInfo Identifier="{00000000-2003-0850-0220-500871000403}" Id="#x02030080"/>
 		<MappingInfo Identifier="{08502001-2002-0850-0020-500801205008}" Id="#x02030030" Watchdog="10000000040000000400000004000000"/>
-		<MappingInfo Identifier="{08502001-2003-0850-0020-500803205008}" Id="#x02030090" Watchdog="10000000040000000400000004000000"/>
-		<MappingInfo Identifier="{08502001-2004-0850-0020-500802205008}" Id="#x02030080" Watchdog="10000000040000000400000004000000"/>
-		<MappingInfo Identifier="{08502003-0010-0304-0020-500810000403}" Id="#x020300b0" Watchdog="04000000040000000400000004000000"/>
-		<MappingInfo Identifier="{08502004-2003-0850-0220-500803205008}" Id="#x020300a0" Watchdog="04000000040000000400000004000000"/>
-		<MappingInfo Identifier="{08502004-0020-0304-0020-500820000403}" Id="#x02030060" Watchdog="00000000000000000000000000000000"/>
+		<MappingInfo Identifier="{08502001-2003-0850-0020-500802205008}" Id="#x02030090" Watchdog="10000000040000000400000004000000"/>
+		<MappingInfo Identifier="{08502001-2004-0850-0020-500803205008}" Id="#x020300c0" Watchdog="10000000040000000400000004000000"/>
+		<MappingInfo Identifier="{08502003-2004-0850-0220-500803205008}" Id="#x020300e0" Watchdog="04000000040000000400000004000000"/>
+		<MappingInfo Identifier="{08502003-0020-0304-0020-500820000403}" Id="#x02030020" Watchdog="00000000000000000000000000000000"/>
+		<MappingInfo Identifier="{08502004-0070-0304-0020-500870000403}" Id="#x02030070" Watchdog="04000000040000000400000004000000"/>
 		<OwnerA Name="TIPC^MasterController^MasterController Instance">
 			<OwnerB Name="TIID^Device 3 (EtherCAT)^Box 1 (EL6695-0002)">
 				<Link VarA="TaskArmControl Inputs^MasterArmControl.m_slaveRobotData" VarB="IO Inputs^SlaveRobotData"/>
